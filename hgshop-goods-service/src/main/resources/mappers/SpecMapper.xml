@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.luyubo.hgshop.dao.SpecDao">
+ 
+	<!-- List<Spec> list(String name); -->
+	
+	<resultMap type="spec" id="specMap">
+		<id property="id" column="id"/>
+		<result property="specName" column="spec_name"/>
+		<collection property="specOptions"
+					column="id"
+					select="selectOptions">
+		</collection>
+	</resultMap>
+	
+	<select id="selectOptions" resultType="SpecOption">
+		select id,option_name optionName,spec_id specId,orders
+		 from hg_spec_option where spec_id=#{value}
+		<!-- <id property="id" column="id"/>
+		<result property="optionName" column="option_name"/>
+		<result property="specId" column="spec_id"/> -->
+	</select>
+	
+	<select id="list" resultMap="specMap">
+		select * from hg_spec
+		<where>
+			<if test="value!=null and value!=''">
+				and spec_name like concat('%',#{value},'%')
+			</if>
+		</where>
+		order by id
+	</select>
+
+	<!-- int addSpec(Spec spec); -->
+
+
+	<!-- int addOption(SpecOption specOption); -->
+
+ 
+	<!-- int updateSpec(Spec spec); -->
+
+ 
+	<!-- int deleteSpecOption(int id); -->
+
+ 
+	<!-- int deleteSpec(int id); -->
+
+
+	<!-- Spec findById(int id); -->
+
+
+	<!-- int deleteSpecOptionBatch(int[] id); -->
+
+ 
+	<!-- int deleteSpecBatch(int[] id); -->
+</mapper>
