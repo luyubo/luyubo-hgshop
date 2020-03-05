@@ -46,7 +46,7 @@ public class SpecServiceImpl implements SpecService {
 		
 		//这里是获得主键ID
 		//添加主表
-		List<SpecOption> options=spec.getSpecOptions();
+		List<SpecOption> options=spec.getOptions();
 		
 		//循环变量
 		int n=1;
@@ -70,7 +70,7 @@ public class SpecServiceImpl implements SpecService {
 	public int delete(int id) {
 		// TODO Auto-generated method stub
 		//删除字表
-		specDao.deleteSpecOption(id);
+		specDao.deleteSpecOptions(id);
 		//删除主表
 		specDao.deleteSpec(id);
 		return 1;

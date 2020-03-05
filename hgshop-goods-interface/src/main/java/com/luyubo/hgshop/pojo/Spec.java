@@ -26,7 +26,7 @@ public class Spec implements Serializable{
 	private Integer id;
 	private String specName;
 	//规格里所有的属性
-	private List<SpecOption> specOptions;
+	private List<SpecOption> options;
 	public Integer getId() {
 		return id;
 	}
@@ -39,17 +39,17 @@ public class Spec implements Serializable{
 	public void setSpecName(String specName) {
 		this.specName = specName;
 	}
-	public List<SpecOption> getSpecOptions() {
-		return specOptions;
+	public List<SpecOption> getOptions() {
+		return options;
 	}
-	public void setSpecOptions(List<SpecOption> specOptions) {
-		this.specOptions = specOptions;
+	public void setOptions(List<SpecOption> options) {
+		this.options = options;
 	}
-	public Spec(Integer id, String specName, List<SpecOption> specOptions) {
+	public Spec(Integer id, String specName, List<SpecOption> options) {
 		super();
 		this.id = id;
 		this.specName = specName;
-		this.specOptions = specOptions;
+		this.options = options;
 	}
 	public Spec() {
 		super();
@@ -57,6 +57,6 @@ public class Spec implements Serializable{
 	}
 	@Override
 	public String toString() {
-		return "Spec [id=" + id + ", specName=" + specName + ", specOptions=" + specOptions + "]";
+		return "Spec [id=" + id + ", specName=" + specName + ", options=" + options + "]";
 	}
 }

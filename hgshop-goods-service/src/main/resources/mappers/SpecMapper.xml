@@ -4,10 +4,10 @@
  
 	<!-- List<Spec> list(String name); -->
 	
-	<resultMap type="spec" id="specMap">
+	<resultMap type="spec" id="specMaper">
 		<id property="id" column="id"/>
 		<result property="specName" column="spec_name"/>
-		<collection property="specOptions"
+		<collection property="options"
 					column="id"
 					select="selectOptions">
 		</collection>
@@ -21,7 +21,7 @@
 		<result property="specId" column="spec_id"/> -->
 	</select>
 	
-	<select id="list" resultMap="specMap">
+	<select id="list" resultMap="specMaper">
 		select * from hg_spec
 		<where>
 			<if test="value!=null and value!=''">
@@ -31,26 +31,56 @@
 		order by id
 	</select>
 
-	<!-- int addSpec(Spec spec); -->
 
+<!-- int addSpec(Spec spec); -->
+	<insert id="addSpec" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+		INSERT INTO hg_spec(spec_name) values(#{specName})
+	</insert>
 
 	<!-- int addOption(SpecOption specOption); -->
+	<insert id="addOption">
+		INSERT INTO hg_spec_option(option_name,spec_id,orders) 
+		   VALUES(#{optionName},#{specId},#{orders})
+	</insert>
+	
 
- 
 	<!-- int updateSpec(Spec spec); -->
+	<update id="updateSpec">
+		update hg_spec set spec_name=#{specName}
+		where id=#{id}
+	</update>
 
- 
-	<!-- int deleteSpecOption(int id); -->
+	<!-- int deleteSpecOtions(int id); -->
+	<delete id="deleteSpecOptions">
+		delete from hg_spec_option WHERE spec_id = #{value}
+	</delete>
 
- 
 	<!-- int deleteSpec(int id); -->
+	<delete id="deleteSpec">
+		delete from hg_spec WHERE id = #{value}
+	</delete>
 
+	<!-- Spec get(int id); -->
+	<select id="get"  resultMap="specMaper">
+   		select * from hg_spec  WHERE id=#{value}
+	</select>
 
-	<!-- Spec findById(int id); -->
+<!-- 	int deleteSpecOtionsBatch(int[] ids); -->
+    <delete id="deleteSpecOptionBatch">
+    	delete from hg_spec_option WHERE spec_id in
+    	<foreach collection="array" open="(" close=")" separator="," item="specid">
+    		#{specid}
+    	</foreach>
+    </delete>
+    
+    <delete id="deleteSpecBatch">
+		delete from hg_spec WHERE id  in
+    	<foreach collection="array" open="(" close=")" separator="," item="specid">
+    		#{specid}
+    	</foreach>
+	</delete>
+    
+    
 
-
-	<!-- int deleteSpecOptionBatch(int[] id); -->
-
- 
-	<!-- int deleteSpecBatch(int[] id); -->
+	<!-- int deleteSpecBatch(int[] ids); -->
 </mapper>

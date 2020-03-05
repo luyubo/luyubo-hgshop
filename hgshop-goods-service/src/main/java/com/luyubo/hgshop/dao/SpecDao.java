@@ -66,7 +66,7 @@ public interface SpecDao {
 	* @return void    返回类型  
 	* @throws  
 	*/  
-	int deleteSpecOption(int id);
+	int deleteSpecOptions(int id);
 
 	/**  
 	* @Title: deleteSpec  
