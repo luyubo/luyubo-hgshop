@@ -9,6 +9,9 @@
 package com.luyubo.hgshop.pojo;
 
 import java.io.Serializable;
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * @ClassName: Category
@@ -22,10 +25,31 @@ public class Category implements Serializable {
 	 * @Fields field:field:{todo}(用一句话描述这个变量表示什么)
 	 */
 	private static final long serialVersionUID = 1647913113926438034L;
-	private Integer id;
-	private Integer parentId;
-	private String name;
-	private String path;
+	
+	private Integer id; // 
+	
+	private Integer parentId; // 上一级别分类的id  parent_id
+	
+	@JsonProperty("text")
+	private String name;//分类的名称
+	
+	
+	private String path;// 从根分类到当前分类的路径
+	
+	/**
+	 * 子节点的列表
+	 */
+	@JsonProperty("nodes")
+	private List<Category> children;// 从根分类到当前分类的路径
+	
+	
+	
+	public List<Category> getChildren() {
+		return children;
+	}
+	public void setChildren(List<Category> children) {
+		this.children = children;
+	}
 	public Integer getId() {
 		return id;
 	}
@@ -50,20 +74,11 @@ public class Category implements Serializable {
 	public void setPath(String path) {
 		this.path = path;
 	}
-	public Category(Integer id, Integer parentId, String name, String path) {
-		super();
-		this.id = id;
-		this.parentId = parentId;
-		this.name = name;
-		this.path = path;
-	}
-	public Category() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
+	
 	@Override
 	public String toString() {
-		return "Category [id=" + id + ", parentId=" + parentId + ", name=" + name + ", path=" + path + "]";
+		return "Category [id=" + id + ", parentId=" + parentId + ", name=" + name + ", path=" + path + ", children="
+				+ children + "]";
 	}
 	@Override
 	public int hashCode() {
@@ -94,6 +109,8 @@ public class Category implements Serializable {
 			return false;
 		return true;
 	}
+	
+	
 
 	
 }

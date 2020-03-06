@@ -12,7 +12,6 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -35,20 +34,19 @@ public class SpecController {
 	SpecService specService;
 	
 	/**
-	 * 
-	* @Title: list  
-	* @Description: TODO(进入规格的列表)  
-	* @param @param page
-	* @param @return    参数  
-	* @return String    返回类型  
-	* @throws
+	 * 进入规格的列表
+	 * @param page
+	 * @return
 	 */
 	@RequestMapping("list")
-	public String list(Model model,
-					   @RequestParam(defaultValue = "1")int page,
-					   @RequestParam(defaultValue = "")String name) {
-		PageInfo<Spec> pageInfo = specService.list(name, page);
-		model.addAttribute("pageInfo", pageInfo);
+	public String list(HttpServletRequest request,
+			@RequestParam(defaultValue="1") int page,
+			@RequestParam(defaultValue="") String name
+	) {
+		 PageInfo<Spec> pageInfo = specService.list(name, page);
+		//pageInfo.getPages()
+		 request.setAttribute("pageInfo", pageInfo);
+		 request.setAttribute("queryName", name);
 		return "spec/list";
 	}
 	
@@ -62,7 +60,7 @@ public class SpecController {
 	@RequestMapping("add")
 	@ResponseBody
 	public String add(HttpServletRequest request,Spec spec) {
-		System.out.println("spec" + spec);
+		//System.out.println("spec" + spec);
 		//System.out.println();
 		spec.getOptions().removeIf(x->{return x.getOptionName()==null;});
 		//System.out.println("spec 处理后：" + spec);
@@ -78,10 +76,10 @@ public class SpecController {
 		//System.out.println();
 		spec.getOptions().removeIf(x->{return x.getOptionName()==null;});
 		System.out.println("spec 处理后：" + spec);
-		//调用服务1
-		int add = specService.update(spec);  
-		//return add>0?"success":"false";
-		return "fail";
+		//调用服务
+		int result = specService.update(spec);  
+		return result >0 ?"success":"false";
+		//return "fail";
 	}
 	
 	
