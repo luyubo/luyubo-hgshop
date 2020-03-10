@@ -61,7 +61,7 @@
 	</delete>
 
 	<!-- Spec get(int id); -->
-	<select id="get"  resultMap="specMaper">
+	<select id="findById"  resultMap="specMaper">
    		select * from hg_spec  WHERE id=#{value}
 	</select>
 

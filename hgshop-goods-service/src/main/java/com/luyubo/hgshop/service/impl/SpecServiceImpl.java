@@ -52,7 +52,10 @@ public class SpecServiceImpl implements SpecService {
 		int n=1;
 		for (SpecOption specOption : options) {
 			//设置主表的id
-			specOption.setSpecId(specOption.getId());
+			System.out.println(spec);
+			System.out.println(specOption);
+			specOption.setSpecId(spec.getId());
+			System.out.println("添加后"+specOption);
 			specDao.addOption(specOption);
 			n++;
 		}
@@ -63,7 +66,18 @@ public class SpecServiceImpl implements SpecService {
 	@Override
 	public int update(Spec spec) {
 		// TODO Auto-generated method stub
-		return specDao.updateSpec(spec);
+		// 去子表中删除
+		specDao.deleteSpecOptions(spec.getId());
+		//修改主表
+		specDao.updateSpec(spec);
+		// 插入子表
+		List<SpecOption> options = spec.getOptions();
+		for (SpecOption specOption : options) {
+			// 设置主表的id
+			specOption.setSpecId(spec.getId());
+			specDao.addOption(specOption);
+		}
+		return 1;
 	}
 
 	@Override
