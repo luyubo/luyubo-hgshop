@@ -11,6 +11,7 @@ package com.luyubo.hgshop.controller;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.dubbo.config.annotation.Reference;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -60,18 +61,19 @@ public class SpecController {
 	@RequestMapping("add")
 	@ResponseBody
 	public String add(HttpServletRequest request,Spec spec) {
-		//System.out.println("spec" + spec);
+		System.out.println("处理前: spec" + spec);
 		//System.out.println();
 		spec.getOptions().removeIf(x->{return x.getOptionName()==null;});
-		//System.out.println("spec 处理后：" + spec);
+		System.out.println("spec 处理后：" + spec);
 		//调用服务
 		int add = specService.add(spec);
+		System.out.println(add);
 		return add>0?"success":"false";
 	}
 	
 	@RequestMapping("update")
 	@ResponseBody
-	public String update(HttpServletRequest request,Spec spec) {
+	public String update(HttpServletRequest request,@Param(value = "spec")Spec spec) {
 		System.out.println("spec" + spec);
 		//System.out.println();
 		spec.getOptions().removeIf(x->{return x.getOptionName()==null;});
