@@ -75,10 +75,6 @@ public class BrandController {
 	@RequestMapping("delBrandBatch")
 	@ResponseBody
 	public String delSpecBatch(HttpServletRequest request,@RequestParam(name="ids[]") int[] ids) {
-		System.out.println("要删除的额数据");
-		for (int i : ids) {
-			System.out.println(" i is " + i  );
-		}
 		//调用服务
 		int delNum = brandService.deleteBatch(ids);
 		return delNum>0?"success":"false";

@@ -20,10 +20,7 @@ public class UserController {
 	}
 	
 	@RequestMapping("login")
-	public String login(String name,String password ) {
-		
-		System.out.println("name " + name + " password " + password);
-		
+	public String login(String name,String password ) {		
 		if(userService.login(name, password))
 			return "redirect:/";
 		else {

@@ -7,136 +7,142 @@
 <link href="/resource/css/bootstrap.css" rel="stylesheet" >    
 <link href="/resource/bootstrap-treeview/css/bootstrap-treeview.css" rel="stylesheet" >    
 <script src="/resource/bootstrap-treeview/js/bootstrap-treeview.js"></script>    
-<div  class="container-fluid">
+
+<div class="container-fluid">
 	<div class="row">
-		<div  class="col-md-6" id="catTree">
-		
+		<div class="col-md-6" id="catTree">
+			
 		</div>
-		<div  class="col-md-6" id="edit">
-			<!-- 用于添加的  开始  -->
-			<form   action="">
+		<div class="col-md-6" id="edit">
+			<!-- 开始 用于添加的 -->
+			<form action="">
 				<div class="form-group">
-    				<label for="">上一级别的id</label>
-    				<input type="text" class="form-control" id="parentId" placeholder="节点名称">
-  				</div>
-  				<div class="form-group">
-    				<label for="">上一级别的名称</label>
-    				<input type="text" class="form-control" id="parentName" placeholder="节点名称">
-  				</div>
-  				<div class="form-group">
-    				<label for="">名称</label>
-    				<input type="text" class="form-control" id="name" placeholder="节点名称">
-  				</div>
-  				<button type="button" class="btn btn-dark" onclick="addChild()">添加</button>
-			</form>
-			<!-- 结束    用于添加 -->
-				
-			<!-- 开始    用于修改 -->
-			<form   action="">
-				<input id="currentChildLenth" value="0" type="hidden">
+				    <label for="">上一级别的id</label>
+				    <input type="text" class="form-control" id="parentId" placeholder="上一级节点id">
+				</div>
 				<div class="form-group">
-    				<label for="">当前的id</label>
-    				<input type="text" class="form-control" id="currentId" placeholder="节点名称">
-  				</div>
-  				<div class="form-group">
-    				<label for="">当前名称</label>
-    				<input type="text" class="form-control" id="currentName" placeholder="节点名称">
-  				</div>
-  				<button type="button" class="btn btn-danger" onclick="delNode()">删除</button>
-  				<button type="button" class="btn btn-primary" onclick="updateNode()">修改</button>
+				    <label for="">上一级别的名称</label>
+				    <input type="text" class="form-control" id="parentName" placeholder="上一级节点名称">
+				</div>
+				<div class="form-group">
+				    <label for="">名称</label>
+				    <input type="text" class="form-control" id="name" placeholder="节点名称">
+				</div>
+				<span id="sp1"></span>
+				<span id="sp2"></span>
+				<span id="sp3"></span>
+				<button type="button" class="btn btn-dark" onclick="addChild()">添加</button>
 			</form>
-			<!-- 结束    用于修改 -->
-				
+			<!-- 结束 用于添加的 -->
+			
+			<!-- 开始 用于修改的 -->
+			<form action="">
+				<input type="hidden" id="currentChildLenth" value="0">
+				<div class="form-group">
+				    <label for="">当前的id</label>
+				    <input type="text" class="form-control" id="currentId" placeholder="上一级节点id">
+				</div>
+				<div class="form-group">
+				    <label for="">当前名称</label>
+				    <input type="text" class="form-control" id="currentName" placeholder="上一级节点名称">
+				</div>
+				<button type="button" class="btn btn-danger" onclick="delNode()">删除</button>
+				<button type="button" class="btn btn-dark" onclick="updateNode()">修改</button>
+			</form>
+			<!-- 结束 用于修改的 -->
 		</div>
 	</div>
-</div>    
+</div>
 <script>
-function initTree() {
+//树状图
+function initTree(){
 	//发送ajax获取树需要的数据
 	$.post("/cat/treeData", {},
 			function(treeData) {
-				//初始化添加的时候分类的树
-				$("#catTree").treeview({
-					data : treeData,
-					levels : 2,
-					onNodeSelected : function(event, node) {
-						/* if (node.nodes.length==0) {
-							alert("末级")
-							$("#add_spu_categmoory").val(node.text);
-							$("#add_spu_category_id").val(node.id);
-							$("#addCategoryTree").hide();
-						}else */
-						{
-							$("#parentId").val(node.id);
-							$("#parentName").val(node.text);
-							$("#name").val("")
-							
-							// 给预备修改的地方赋值
-							$("#currentId").val(node.id);
-							$("#currentName").val(node.text);
-							$("#currentChildLenth").val(node.nodes.length)
-							
-						}
-					}
-				});
+		//初始化添加的时候分类的树
+		$("#catTree").treeview({
+			data : treeData,
+			levels : 2,
+			onNodeSelected : function(event, node) {
+				/* if (node.nodes.length==0) {
+					$("#add_spu_categmoory").val(node.text);
+					$("#add_spu_category_id").val(node.id);
+					$("#addCategoryTree").hide();
+					$("#sp1").val(node.text);
+				} else*/{
+					$("#parentId").val(node.id);
+					$("#parentName").val(node.text);
+					$("#name").val("");
+					$("#sp2").val(node.text);
+					
+					//给预备修改的地方赋值
+					$("#currentId").val(node.id);
+					$("#currentName").val(node.text);
+					$("#currentChildLenth").val(node.nodes.length);
+				}
+			}
+		});
 
-			}, "json");
+	}, "json");
 }
 initTree();
-
+//添加
 function addChild(){
-	$.post("/cat/add",{parentId:$("#parentId").val(),name:$("#name").val()},
+	$("#sp3").val($("#sp1").val()+"/"+$("#sp2").val()+"/"+$("#name").val());
+	$.post(
+		"/cat/add",
+		{parentId:$("#parentId").val(),name:$("#name").val(),path:$("#sp3").val()},
 		function(data){
 			if(data=="success"){
-				alert("插入成功")
-				//刷新当前的ye'm
+				alert("插入成功");
 				refresh();
 			}else{
-				alert("插入失败")
+				alert("插入失败");
 			}
-		}		
-	)
+		}
+	);
 }
-
+//刷新
 function refresh(){
 	$("#main").load("/cat/list");
 }
-
+//删除
 function delNode(){
 	if($("#currentChildLenth").val()>0){
-		alert("该节点还有子节点，您不能删除")
+		alert("该节点还有子节点,您不能删除");
 		return;
 	}
-	if(confirm("您确认删除该节点么")){
-		$.post("/cat/del",{id:$("#currentId").val()},
-				function(data){
-					if(data=="success"){
-						alert("删除成功")
-						//刷新当前的ye'm
-						refresh();
-					}else{
-						alert("删除失败")
-					}
-				}		
-			)
-	}
-	
-}
-
-// 修改
-function updateNode(){
-	
-	$.post("/cat/update",{id:$("#currentId").val(),name:$("#currentName").val()},
+	if(confirm("您确定删除该节点吗?")){
+		$.post(
+			"/cat/del",
+			{id:$("#currentId").val()},
 			function(data){
 				if(data=="success"){
-					alert("修改成功")
-					//刷新当前的ye'm
+					alert("删除成功");
+					//刷新当前的页面
 					refresh();
 				}else{
-					alert("修改失败")
+					alert("删除失败");
 				}
-			}		
-		)
+			}
+		);
+	}
 }
-
+//修改
+function updateNode(){
+	$("#sp3").val($("#sp1").val()+"/"+$("#sp2").val()+"/"+$("#name").val());
+	$.post(
+			"/cat/update",
+			{id:$("#currentId").val(),name:$("#currentName").val(),path:$("#sp3").val()},
+			function(data){
+				if(data=="success"){
+					alert("修改成功");
+					//刷新当前的页面
+					refresh();
+				}else{
+					alert("修改失败");
+				}
+			}
+		);
+}
 </script>

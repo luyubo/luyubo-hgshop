@@ -42,10 +42,8 @@ public class SpecController {
 	@RequestMapping("list")
 	public String list(HttpServletRequest request,
 			@RequestParam(defaultValue="1") int page,
-			@RequestParam(defaultValue="") String name
-	) {
+			@RequestParam(defaultValue="") String name) {
 		 PageInfo<Spec> pageInfo = specService.list(name, page);
-		//pageInfo.getPages()
 		 request.setAttribute("pageInfo", pageInfo);
 		 request.setAttribute("queryName", name);
 		return "spec/list";
@@ -61,30 +59,21 @@ public class SpecController {
 	@RequestMapping("add")
 	@ResponseBody
 	public String add(HttpServletRequest request,Spec spec) {
-		System.out.println("处理前: spec" + spec);
-		//System.out.println();
 		spec.getOptions().removeIf(x->{return x.getOptionName()==null;});
 		System.out.println("spec 处理后：" + spec);
 		//调用服务
 		int add = specService.add(spec);
-		System.out.println(add);
 		return add>0?"success":"false";
 	}
 	
 	@RequestMapping("update")
 	@ResponseBody
 	public String update(HttpServletRequest request,@Param(value = "spec")Spec spec) {
-		System.out.println("spec" + spec);
-		//System.out.println();
 		spec.getOptions().removeIf(x->{return x.getOptionName()==null;});
-		System.out.println("spec 处理后：" + spec);
 		//调用服务
 		int result = specService.update(spec);  
 		return result >0 ?"success":"false";
-		//return "fail";
-	}
-	
-	
+	}	
 	
 	/**
 	 * 用于修改数据时候的回显
@@ -96,10 +85,8 @@ public class SpecController {
 	@ResponseBody
 	public Spec getSpec(HttpServletRequest request, int id){
 		return specService.findById(id);
-		
 	}
-	
-	
+		
 	/**
 	 * 删除规格
 	 * @param request
@@ -123,10 +110,6 @@ public class SpecController {
 	@RequestMapping("delSpecBatch")
 	@ResponseBody
 	public String delSpecBatch(HttpServletRequest request,@RequestParam(name="ids[]") int[] ids) {
-		System.out.println("要删除的额数据");
-		for (int i : ids) {
-			System.out.println(" i is " + i  );
-		}
 		//调用服务
 		int delNum = specService.deleteBatch(ids);
 		return delNum>0?"success":"false";

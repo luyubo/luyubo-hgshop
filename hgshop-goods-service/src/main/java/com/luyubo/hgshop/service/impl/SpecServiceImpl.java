@@ -52,10 +52,7 @@ public class SpecServiceImpl implements SpecService {
 		int n=1;
 		for (SpecOption specOption : options) {
 			//设置主表的id
-			System.out.println(spec);
-			System.out.println(specOption);
 			specOption.setSpecId(spec.getId());
-			System.out.println("添加后"+specOption);
 			specDao.addOption(specOption);
 			n++;
 		}

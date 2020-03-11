@@ -22,7 +22,7 @@ path
 </select>
 
 <insert id="add" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
-	insert into hg_category(parent_id,name) value(#{parentId},#{name})
+	insert into hg_category(parent_id,name,path) value(#{parentId},#{name},#{path})
 </insert>
 
 <delete id="delete">
@@ -30,7 +30,7 @@ path
 </delete>
 
 <update id="update">
-	update hg_category set name = #{name} where id=#{id}
+	update hg_category set name = #{name},path=#{path} where id=#{id}
 </update>
 
 </mapper>

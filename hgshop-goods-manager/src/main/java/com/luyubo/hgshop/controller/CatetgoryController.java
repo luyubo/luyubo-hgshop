@@ -39,33 +39,25 @@ public class CatetgoryController {
 	@RequestMapping("add")
 	@ResponseBody
 	public String add(HttpServletRequest request,
-			@RequestParam(defaultValue="0") int parentId,String name ) {
+			@RequestParam(defaultValue="0") int parentId,String name,String path ) {
 		Category category = new Category();
 		 category.setParentId(parentId);
 		 category.setName(name);
+		 category.setPath(path);
 		return goodsService.addCategory(category)>0?"success":"failed";
 	}
-	
 	
 	@RequestMapping("del")
 	@ResponseBody
 	public String del(HttpServletRequest request,
 			@RequestParam(defaultValue="0") int id) {
-		
-		
 		return goodsService.deleteCategory(id)>0 ?"success":"failed";
 	}
-	
 	
 	@RequestMapping("update")
 	@ResponseBody
 	public String update(HttpServletRequest request,
 			Category cat) {
-		System.err.println( "cat is " +  cat);
 		return goodsService.updateCategory(cat)>0 ?"success":"failed";
 	}
-	
-	
-	
-
 }
