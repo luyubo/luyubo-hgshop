@@ -223,19 +223,6 @@ Modal
 <script type="text/javascript">
 
 /* 添加属性值 */
- 	/* var addindex=1;
-	//fomId 标志给那个form 添加属性
-	function addProp(fomId){
-			$(fomId).append('<div class="form-group form-group-proper">'+
-    				'<label for="inputAddress">属性值</label>'+
-    				'<input type="text" name="options['+addindex+'].optionName" class="form-control" id="inputAddress" placeholder="1234 Main St">'+
-    				'<button onclick="$(this).parent().remove()">删除</button>'+
-    				'</div>')
-    				
-    				
-    	addindex++;
-	} */
-	
  	var addindex=1;
 	function addProp(fomId){
 		$(fomId).append('<div class="form-group form-group-proper">'+

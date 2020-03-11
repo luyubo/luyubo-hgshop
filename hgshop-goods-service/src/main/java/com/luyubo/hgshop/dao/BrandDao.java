@@ -10,6 +10,7 @@ package com.luyubo.hgshop.dao;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Select;
 
 import com.luyubo.hgshop.pojo.Brand;
 
@@ -51,5 +52,18 @@ public interface BrandDao {
 	* @throws  
 	*/  
 	int deleteBatch(int[] ids);
+
+	/**  
+	* @Title: listAll  
+	* @Description: TODO(这里用一句话描述这个方法的作用)  
+	* @param @return    参数  
+	* @return List<Brand>    返回类型  
+	* @throws  
+	*/  
+	@Select("SELECT id,name,first_char as firstChar "
+			+ " FROM hg_brand "
+			+ "where deleted_flag=0"
+			+ " ORDER BY name ")
+	List<Brand> listAll();
 
 }
