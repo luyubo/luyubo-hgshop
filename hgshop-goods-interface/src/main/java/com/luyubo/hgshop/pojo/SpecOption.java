@@ -25,6 +25,10 @@ public class SpecOption implements Serializable{
 	private String optionName;
 	private int specId;
 	private int orders=0;
+	/**
+	 * 属性名称
+	 */
+	private String specName;
 	public Integer getId() {
 		return id;
 	}
@@ -49,12 +53,19 @@ public class SpecOption implements Serializable{
 	public void setOrders(int orders) {
 		this.orders = orders;
 	}
-	public SpecOption(Integer id, String optionName, int specId, int orders) {
+	public String getSpecName() {
+		return specName;
+	}
+	public void setSpecName(String specName) {
+		this.specName = specName;
+	}
+	public SpecOption(Integer id, String optionName, int specId, int orders, String specName) {
 		super();
 		this.id = id;
 		this.optionName = optionName;
 		this.specId = specId;
 		this.orders = orders;
+		this.specName = specName;
 	}
 	public SpecOption() {
 		super();
@@ -86,6 +97,6 @@ public class SpecOption implements Serializable{
 	@Override
 	public String toString() {
 		return "SpecOption [id=" + id + ", optionName=" + optionName + ", specId=" + specId + ", orders=" + orders
-				+ "]";
+				+ ", specName=" + specName + "]";
 	}
 }

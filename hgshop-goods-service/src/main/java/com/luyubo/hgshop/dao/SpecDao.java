@@ -105,4 +105,13 @@ public interface SpecDao {
 	*/  
 	int deleteSpecBatch(int[] id);
 
+	/**  
+	* @Title: listAll  
+	* @Description: TODO(这里用一句话描述这个方法的作用)  
+	* @param @return    参数  
+	* @return List<Spec>    返回类型  
+	* @throws  
+	*/  
+	List<Spec> listAll();
+
 }

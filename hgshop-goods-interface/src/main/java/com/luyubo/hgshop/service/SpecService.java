@@ -8,6 +8,8 @@
 */  
 package com.luyubo.hgshop.service;
 
+import java.util.List;
+
 import com.github.pagehelper.PageInfo;
 import com.luyubo.hgshop.pojo.Spec;
 
@@ -75,4 +77,13 @@ public interface SpecService {
 	* @throws  
 	*/
 	int deleteBatch(int[] id);
+
+	/**  
+	* @Title: listAll  
+	* @Description: TODO(获得所有的Spec)  
+	* @param @return    参数  
+	* @return List<Spec>    返回类型  
+	* @throws  
+	*/  
+	List<Spec> listAll();
 }

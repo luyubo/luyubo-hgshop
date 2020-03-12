@@ -183,6 +183,7 @@ public interface GoodsService {
 	 */
 	int deleteSpuBatch(int[] id);
 	
+	//sku的管理
 	PageInfo<Sku>  listSku(int page,Sku sku);
 	int addSku(Sku sku);
 	Sku getSku(int id);//获取详情

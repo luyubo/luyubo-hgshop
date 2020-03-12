@@ -8,6 +8,7 @@
 */  
 package com.luyubo.hgshop.service.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import org.apache.dubbo.config.annotation.Service;
@@ -137,7 +138,7 @@ public class GoodsServiceImpl implements GoodsService {
 	@Override
 	public Spu getSpu(int id) {
 		// TODO Auto-generated method stub
-		return spuDao.get(id);
+		return spuDao.findById(id);
 	}
 
 	@Override
@@ -156,6 +157,7 @@ public class GoodsServiceImpl implements GoodsService {
 	@Override
 	public int addSku(Sku sku) {
 		// TODO Auto-generated method stub
+		sku.setCreateTime(new Date());
 		//先加主表
 		int cnt = skuDao.addSku(sku);
 		List<SpecOption> specs = sku.getSpecs();

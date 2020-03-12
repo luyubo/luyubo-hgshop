@@ -30,6 +30,10 @@
 		</where>
 		order by id
 	</select>
+	
+	<select id="listAll" resultType="Spec">
+		select id,spec_name as specName from hg_spec ORDER BY spec_name
+	</select>
 
 
 <!-- int addSpec(Spec spec); -->
@@ -73,6 +77,7 @@
     	</foreach>
     </delete>
     
+    <!-- int deleteSpecBatch(int[] ids); -->
     <delete id="deleteSpecBatch">
 		delete from hg_spec WHERE id  in
     	<foreach collection="array" open="(" close=")" separator="," item="specid">
@@ -82,5 +87,5 @@
     
     
 
-	<!-- int deleteSpecBatch(int[] ids); -->
+
 </mapper>
