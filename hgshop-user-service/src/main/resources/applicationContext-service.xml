@@ -56,7 +56,9 @@
 
 
 	<!-- 应用程序 -->
-	<dubbo:application name="hgshop-user-service"  />
+	<dubbo:application name="hgshop-user-service"  >
+		<dubbo:parameter key="qos.enable" value="false"/>
+	</dubbo:application>
 	<!-- 注册中心 采用zookeeper -->
 	<dubbo:registry
 		address="zookeeper://127.0.0.1:2181" /> 

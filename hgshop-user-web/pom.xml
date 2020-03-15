@@ -124,6 +124,16 @@
 			<artifactId>hgshop-user-interface</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
+		
+		<dependency>
+			<groupId>redis.clients</groupId>
+			<artifactId>jedis</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.data</groupId>
+			<artifactId>spring-data-redis</artifactId>
+		</dependency>
+		
 </dependencies>
 
 	<build>
@@ -160,7 +170,7 @@
 					<path>/</path>
 					<uriEncoding>UTF-8</uriEncoding>
 					<contextReloadable>true</contextReloadable>
-					<staticContextDocbase>G://pic</staticContextDocbase>
+					<staticContextDocbase>D://pic</staticContextDocbase>
 					<staticContextPath>/pic</staticContextPath>
 				</configuration>
 			</plugin>

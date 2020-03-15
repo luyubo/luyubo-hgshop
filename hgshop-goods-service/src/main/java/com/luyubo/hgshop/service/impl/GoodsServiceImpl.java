@@ -13,6 +13,7 @@ import java.util.List;
 
 import org.apache.dubbo.config.annotation.Service;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.kafka.core.KafkaTemplate;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -25,8 +26,10 @@ import com.luyubo.hgshop.pojo.Category;
 import com.luyubo.hgshop.pojo.Sku;
 import com.luyubo.hgshop.pojo.SpecOption;
 import com.luyubo.hgshop.pojo.Spu;
+import com.luyubo.hgshop.pojo.SpuEsVo;
 import com.luyubo.hgshop.pojo.SpuVo;
 import com.luyubo.hgshop.service.GoodsService;
+import com.luyubo.hgshop.utils.ElSearchUtil;
 
 /**  
 * @ClassName: GoodsServiceImpl  
@@ -36,11 +39,17 @@ import com.luyubo.hgshop.service.GoodsService;
 */
 @Service(interfaceClass = GoodsService.class)
 public class GoodsServiceImpl implements GoodsService {
-
+	@Autowired
+	ElSearchUtil<SpuEsVo> elSearchUtils;
+	
 	@Autowired
 	CategoryDao catDao;
 	@Autowired
 	SpuDao spuDao;
+	
+	@Autowired
+	KafkaTemplate<String, String> kafakTemplate;
+	
 	@Autowired
 	SkuDao skuDao;
 	@Autowired
@@ -120,7 +129,18 @@ public class GoodsServiceImpl implements GoodsService {
 	@Override
 	public int addSpu(Spu spu) {
 		// TODO Auto-generated method stub
-		return spuDao.add(spu);
+		int cnt =  spuDao.add(spu);
+		//kafaTemplate.send("MyAddSpu", "spuId", cnt+"");
+		
+		// 将该数据收集到搜搜引擎当中
+		Spu newSpu = spuDao.findById(spu.getId());
+		SpuEsVo spuEsVo = new SpuEsVo(newSpu);
+		System.out.println(" >>>>>>>>>>> spuEsVo is " + spuEsVo);
+		elSearchUtils.saveObject(spu.getId().toString(), spuEsVo);
+		
+		// 使用kafak 去发送消息  把商品id 发送到主题MyAddSpu 上。
+		kafakTemplate.send("MyAddSpu", "addspu",spu.getId().toString() );
+		return cnt;
 	}
 
 	@Override

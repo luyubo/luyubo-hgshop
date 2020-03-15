@@ -104,6 +104,7 @@ function add(){
 		  success:function(data){
 			  if(data=="success"){
 					 alert("数据提交成功");
+					 $("#main").load("/goods/list");
 				 }else{
 					 alert("数据保存失败");
 				 }  

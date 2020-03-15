@@ -7,4 +7,9 @@ public class HgShopConstant {
 	 */
 	public static String USEKEY="userkey";
 	
+	/**
+	 * 首页缓存的数据 key
+	 */
+	public static String SPU_CACHE_KEY="SPU_CACHE_KEY";
+	
 }

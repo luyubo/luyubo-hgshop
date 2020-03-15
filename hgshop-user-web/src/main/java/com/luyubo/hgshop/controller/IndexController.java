@@ -1,18 +1,28 @@
 package com.luyubo.hgshop.controller;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.dubbo.config.annotation.Reference;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.elasticsearch.core.aggregation.AggregatedPage;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.luyubo.hgshop.comm.HgShopConstant;
 import com.luyubo.hgshop.pojo.Sku;
 import com.luyubo.hgshop.pojo.Spu;
+import com.luyubo.hgshop.pojo.SpuEsVo;
 import com.luyubo.hgshop.pojo.SpuVo;
+import com.luyubo.hgshop.pojo.Category;
 import com.luyubo.hgshop.service.GoodsService;
+import com.luyubo.hgshop.utils.ElSearchUtil;
 import com.github.pagehelper.PageInfo;
 
 /**
@@ -23,8 +33,16 @@ import com.github.pagehelper.PageInfo;
 @Controller
 public class IndexController {
 	
+	@Autowired
+	private RedisTemplate<String, PageInfo<Spu>> redisTemplate;
+	
+	
 	@Reference
 	GoodsService goodsService;
+	
+	// 搜索引擎
+	@Autowired 
+	ElSearchUtil<SpuEsVo> elUtils;
 	
 	/**
 	 * 
@@ -38,6 +56,25 @@ public class IndexController {
 			@RequestParam(defaultValue="1") int page,
 			@RequestParam(defaultValue="0") int catId) {
 		// 获取商品的数据
+		// 只有首页的数据才缓存
+		if(page==1 && catId==0) {
+			ValueOperations<String, PageInfo<Spu>> opsForValue = redisTemplate.opsForValue();
+			//有缓存
+			if(redisTemplate.hasKey(HgShopConstant.SPU_CACHE_KEY)) {
+				PageInfo<Spu> pageInfo = opsForValue.get(HgShopConstant.SPU_CACHE_KEY);
+				request.setAttribute("pageInfo", pageInfo);
+				return "index";
+			}else {
+				// 从服务中获取数据
+				PageInfo<Spu> pageInfo = goodsService.listSpu(1, new SpuVo());
+				// 数据放入缓存当中
+				//缓存30分钟
+				opsForValue.set(HgShopConstant.SPU_CACHE_KEY, pageInfo,30,TimeUnit.MINUTES);
+				request.setAttribute("pageInfo", pageInfo);
+				return "index";
+			}
+		}
+		
 		PageInfo<Spu> listSpu = goodsService.listSpu(page, new SpuVo());
 		request.setAttribute("pageInfo", listSpu);
 		return "index";
@@ -63,6 +100,30 @@ public class IndexController {
 		request.setAttribute("skus", skuList);
 		System.out.println("skuList is " + skuList);
 		return "detail";
+	}
+	
+	/**
+	 * 
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping("search")
+	public String search(HttpServletRequest request,
+			String key,@RequestParam(defaultValue="1") int page) {
+		System.out.println(key);
+		AggregatedPage<SpuEsVo> aggregatedPage = elUtils.queryObjects(SpuEsVo.class, page, 10, new String[]{"goodsName","caption","brandName","categoryName"},key );
+		//aggregatedPage.getContent();
+		request.setAttribute("pageInfo", aggregatedPage);
+		return "search";
+		
+	}
+	
+	
+	@RequestMapping("treeData")
+	@ResponseBody
+	public List<Category> treeData(HttpServletRequest request) {
+		
+		return goodsService.treeCategory();
 	}
 	
 	

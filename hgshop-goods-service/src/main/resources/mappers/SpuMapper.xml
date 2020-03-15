@@ -26,7 +26,7 @@
  	</resultMap>
 	<!-- List<Spu> list(SpuVo vo); -->
 	<select id="list" resultMap="spuMaper">
-		select * from hg_spu <!-- ORDER BY spu_id DESC,id DESC -->
+		select * from hg_spu ORDER BY id DESC
 	</select>
 	
 	<!-- int add(Spu spu); -->
