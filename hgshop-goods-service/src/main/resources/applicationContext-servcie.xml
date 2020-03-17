@@ -18,6 +18,7 @@
 		<property name="dataSource" ref="dataSource"></property>
 	</bean>
 	
+	<!-- 判断是否使用了es添加工具类 -->
 	<context:component-scan base-package="com.luyubo.hgshop.config,com.luyubo.hgshop.utils"/>
 
 	<!--配置事务 transaction-manager:表示关联的事务管理器是谁 -->
@@ -39,6 +40,7 @@
 	<!-- 7、配置aop -->
 	<aop:config>
 		<!-- 配置切点表达式 -->
+		<!-- 必须修改 -->
 		<aop:pointcut
 			expression="execution(* com.luyubo.hgshop.service.*.*(..))"
 			id="pointcut" />
@@ -52,6 +54,7 @@
 	<!-- 应用程序 -->
 	<dubbo:application name="hgshop-goods-service" />
 	<!-- 注册中心 采用zookeeper -->
+	<!-- 必须修改 -->
 	<dubbo:registry
 		address="zookeeper://127.0.0.1:2181" /> 
 	<!-- 直连 -->
@@ -59,6 +62,7 @@
 	<!-- 通讯协议 -->
 	<dubbo:protocol name="dubbo" port="20890" host="127.0.0.1"/>
 	<!-- 注解扫描配置 指定了扫描的包 -->
+	<!-- 必须修改 -->
 	<dubbo:annotation
 		package="com.luyubo.hgshop.service.impl" />
 </beans>

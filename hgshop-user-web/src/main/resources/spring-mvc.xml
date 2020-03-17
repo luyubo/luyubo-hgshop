@@ -10,9 +10,11 @@
 		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd">
 
 	<!-- <import resource="classpath:applicationContext-kafka-consumer.xml"/> -->
+	<!-- 有就引入,没有就删除 -->
 	<import resource="classpath:applicationContext-elasticSearch.xml"/>
 	 <import resource="classpath:applicationContext-kafka-consumer.xml"/>
 	<!-- 扫描器 -->
+	<!-- 有就引入,没有就删除 -->
 	<context:component-scan
 		base-package="com.luyubo.hgshop.controller,com.luyubo.hgshop.config,com.luyubo.hgshop.listener,com.luyubo.hgshop.utils" />
 	<!-- 视图解析图 -->
@@ -29,6 +31,7 @@
 	<mvc:annotation-driven/>
    
    	<!-- 配置redis的配置 -->
+   	<!-- 和linux一样 -->
 		<bean id="jedisConnectionFactory"
 			class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory"
 			p:use-pool="true" p:port="6379" p:hostName="192.168.78.128" />
@@ -69,10 +72,13 @@
 		class="org.springframework.web.multipart.commons.CommonsMultipartResolver"></bean>
 		
 	<!-- 应用程序名称 -->
+	<!-- 建议与项目修改 -->
 	<dubbo:application name="hgshop-web" />
 	<!-- 注册中心 -->
+	<!-- 必须修改 -->
 	<dubbo:registry
 		address="zookeeper://192.168.6.111:2181" />
 	<!-- 配置扫描包的路径 -->	
+	<!-- 必须修改 -->
 	<dubbo:annotation package="com.luyubo.hgshop.controller"/>
 </beans>

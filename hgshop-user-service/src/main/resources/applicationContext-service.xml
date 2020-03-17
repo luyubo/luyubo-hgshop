@@ -21,6 +21,7 @@
 		<property name="dataSource" ref="dataSource"></property>
 	</bean>
 	
+	<!-- 有就引入,没有就删除 -->
 	<context:component-scan
 		base-package="com.luyubo.hgshop.config" />
 		
@@ -45,6 +46,7 @@
 	<!-- 7、配置aop -->
 	<aop:config>
 		<!-- 配置切点表达式 -->
+		<!-- 必须修改 -->
 		<aop:pointcut
 			expression="execution(* com.luyubo.hgshop.service.*.*(..))"
 			id="pointcut" />
@@ -56,17 +58,21 @@
 
 
 	<!-- 应用程序 -->
+	<!-- 建议跟着项目修改 -->
 	<dubbo:application name="hgshop-user-service"  >
 		<dubbo:parameter key="qos.enable" value="false"/>
 	</dubbo:application>
 	<!-- 注册中心 采用zookeeper -->
+	<!-- 必须修改 -->
 	<dubbo:registry
 		address="zookeeper://127.0.0.1:2181" /> 
 	<!-- 直连 -->
 	<!-- <dubbo:registry address="N/A" /> -->
 	<!-- 通讯协议 -->
+	<!-- 不冲突可以不修改 -->
 	<dubbo:protocol name="dubbo" port="20891" host="127.0.0.1" />
 	<!-- 注解扫描配置 指定了扫描的包 -->
+	<!-- 必须修改 -->
 	<dubbo:annotation
 		package="com.luyubo.hgshop.service.impl" />
 </beans>

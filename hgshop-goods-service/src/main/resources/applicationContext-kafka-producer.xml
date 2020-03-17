@@ -12,6 +12,7 @@
 							<constructor-arg>
 								<map>
 									<!-- kafka服务地址，可能是集群 value="localhost:9092,localhost:9093,localhost:9094"-->
+									<!-- 与linuxip相同 -->
 									<entry key="bootstrap.servers" value="192.168.78.128:9092" />
 									
 									<!-- 有可能导致broker接收到重复的消息-->

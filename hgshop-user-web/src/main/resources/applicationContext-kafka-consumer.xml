@@ -11,6 +11,7 @@
 		<constructor-arg>
 			<map> 
 				<!--Kafka服务地址 -->
+				<!-- 与linux保持一样 -->
 				<entry key="bootstrap.servers" value="192.168.78.128:9092" />
 				<!--Consumer的组ID，相同group.id的consumer属于同一个组。 -->
 				<entry key="group.id" value="test-consumer-group" />
@@ -36,7 +37,6 @@
 		</constructor-arg>
 	</bean>
 	
-	
 	<bean id="messageListenerContainer"
 		class="org.springframework.kafka.listener.KafkaMessageListenerContainer"
 		init-method="doStart">
@@ -49,6 +49,7 @@
     <!-- 记得修改主题 -->
 	<bean id="containerProperties"
 		class="org.springframework.kafka.listener.ContainerProperties">
+		<!-- 与生产者一致 -->
 		<constructor-arg value="MyAddSpu" />
 		<property name="messageListener"
 			ref="messageListernerConsumerService" />
@@ -57,6 +58,7 @@
 
 	
 	<!--指定具体监听类的bean -->
+	<!-- 与监听的类名一致 -->
 	<bean id="messageListernerConsumerService"
 		class="com.luyubo.hgshop.listen.KafkaConsumerListener" />
 		

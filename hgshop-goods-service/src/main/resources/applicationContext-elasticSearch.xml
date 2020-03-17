@@ -8,6 +8,7 @@
   
     <!-- 你可以设置client.transport.sniff为true来使客户端去嗅探整个集群的状态，把集群中其它机器的ip地址加到客户端中。这样做的好处是，一般你不用手动设置集群里所有集群的ip到连接客户端，它会自动帮你添加，并且自动发现新加入集群的机器
 	-->
+	<!-- 查看linux的ip修改 -->
 	<elasticsearch:transport-client id="client"
 		cluster-nodes="192.168.78.128:9300" client-transport-sniff="false" cluster-name="elasticsearch" />
 		

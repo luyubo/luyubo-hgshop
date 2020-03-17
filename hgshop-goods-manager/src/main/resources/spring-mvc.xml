@@ -9,6 +9,7 @@
 		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd">
 
 	<!-- 扫描器 -->
+	<!-- 这里酌情判断是否用到这些包里的类 -->
 	<context:component-scan
 		base-package="com.luyubo.hgshop.controller,com.luyubo.hgshop.config,com.luyubo.hgshop.listener" />
 	<!-- 视图解析图 -->
@@ -29,10 +30,13 @@
 		class="org.springframework.web.multipart.commons.CommonsMultipartResolver"></bean>
 		
 	<!-- 应用程序名称 -->
+	<!-- 建议跟着项目修改 -->
 	<dubbo:application name="hgshop-manage" />
 	<!-- 注册中心 -->
+	<!-- 必须修改 -->
 	<dubbo:registry
 		address="zookeeper://127.0.0.1:2181" />
 	<!-- 配置扫描包的路径 -->	
+	<!-- 必须修改 -->
 	<dubbo:annotation package="com.luyubo.hgshop.controller"/>
 </beans>
